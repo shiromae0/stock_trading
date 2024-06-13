@@ -15,7 +15,7 @@ def check_TD(windows = 2):
         for i in range(12,len(data_dict)-windows):
             is_buy_setup = True
             for j in range(9):
-                if float(data_dict[i - j]['close']) >= float(data_dict[i - j - 4]['close']):
+                if float(data_dict[i - j]['close']) <= float(data_dict[i - j - 4]['close']):
                     is_buy_setup = False
                     break
             if is_buy_setup == True:
@@ -32,17 +32,14 @@ def check_momentum(windows = 7):
     change_ratio = []
     cnt = 0
     for c in code:
-        cnt += 1
-        if cnt > 300:
-            break
         data_dict = get_stock_info(c)
         for i in range(12, len(data_dict) - windows):
             is_buy_setup = True
             for j in range(5):
-                if float(data_dict[i - j]['close']) >= float(data_dict[i - j]['open']):
+                if float(data_dict[i - j]['close']) >= float(data_dict[i - j - 1]['open']) :
                     is_buy_setup = False
                     break
-            if is_buy_setup == True:
+            if is_buy_setup == True and float(data_dict[i]['amp']) > 4 and float(data_dict[i]['change_ratio'])<(-2):
                 if float(data_dict[i + windows]['close']) > float(data_dict[i]['close']):
                     win += 1
                 else:

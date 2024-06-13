@@ -14,19 +14,19 @@ def get_stock_info(code):
         data_dict = {}
         cnt = 0
         for r in reader:
-            r[0] = datetime.datetime.strptime(r[0], "%Y-%m-%d")
+            # 创建字典,key为 日期 开盘 收盘 最高 最低 成交量 成交额 振幅 涨跌幅 涨跌额 换手率
             data_dict[cnt] = {
-                "date": r[0],
-                "open": r[1],
-                "close": r[2],
-                "high": r[3],
-                "low": r[4],
-                "volume": r[5],
-                "turnover": r[6],
-                "amp": r[7],
-                "change_ratio": r[8],
-                "change": r[9],
-                "turnover_ratio": r[10]
+                "date": datetime.datetime.strptime(r[0], "%Y-%m-%d"),
+                "open": float(r[1]),
+                "close": float(r[2]),
+                "high": float(r[3]),
+                "low": float(r[4]),
+                "volume": int(r[5]),
+                "turnover": float(r[6]),
+                "amp": float(r[7]),
+                "change_ratio": float(r[8]),
+                "change": float(r[9]),
+                "turnover_ratio": float(r[10])
             }
             cnt += 1
     return data_dict
