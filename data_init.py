@@ -1,5 +1,7 @@
 import csv
+import sys
 
+from bs4 import BeautifulSoup
 import requests
 import re
 # 目标网址
@@ -52,6 +54,25 @@ def get_info(code):
             cnt+=1
     else:
         print(f"请求失败，状态码: {response.status_code}")
+        sys.exit(-2)
     return data_dict
 
-create_table(get_info(600000),600000)
+
+
+
+def get_code():
+    code = []
+    url = "http://www.haiguitouzi.com/doc/intro_stock_list.php"
+    response = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'})
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+        td_tags = soup.find_all('td')
+        for td in td_tags:
+            code.append(td.get_text(strip=True)[0:6])
+    return code
+
+code = get_code()
+for c in code:
+    if c[0] != '6':
+        continue
+    create_table(get_info(c),c)
