@@ -51,4 +51,3 @@ check_momentum(2)
 check_momentum(4)
 check_momentum(7)
 check_momentum(10)
-12323
